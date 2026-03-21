@@ -1,25 +1,21 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="./style.css" />
-<script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wisdom App (Starter)</title>
+  <title>Wisdom App — Live2D</title>
+
   <link rel="stylesheet" href="./style.css" />
+
+  <!-- Live2D Cubism Core -->
+  <script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script>
 </head>
+
 <body>
   <div class="wrap">
     <header class="top">
-      <div>
-        <h1>Wisdom App — Starter</h1>
-        <p class="sub">
-          Live2D + lip-sync demo for
-          <span class="mono">pixi-live2d-display</span>.
-          Add your model into <span class="mono">/wisdom-app/model/</span>.
-        </p>
-      </div>
-      <div class="pill">v0.1</div>
+      <h1>Wisdom App — Live2D</h1>
+      <p class="sub">PIXI + Live2D + Lip Sync</p>
     </header>
 
     <main class="grid">
@@ -44,31 +40,11 @@
         <div class="label">Controls</div>
 
         <div class="field">
-          <label>Language (for voice routing later)</label>
-          <select id="lang">
-            <option value="english">English</option>
-            <option value="punjabi">Punjabi</option>
-          </select>
-          <div class="small">
-            This starter does not call ElevenLabs yet. It demonstrates avatar loading + lip sync from audio.
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Text (future GPT → TTS input)</label>
-          <textarea id="text" rows="5">Welcome. Sit for a moment in stillness. Ask what rests upon your heart.</textarea>
-          <div class="small">For now, use the audio controls below to drive lip sync.</div>
-        </div>
-
-        <div class="field">
           <label>Audio lip-sync test</label>
           <div class="row">
             <input id="audioFile" type="file" accept="audio/*" />
             <button id="btnPlay" class="btn">Play & lip-sync</button>
             <button id="btnStop" class="btn btnGhost">Stop</button>
-          </div>
-          <div class="small">
-            Choose any audio file on your PC (MP3/WAV). Mouth will follow audio amplitude.
           </div>
         </div>
 
@@ -79,19 +55,6 @@
             <span class="small">OpenY:</span>
             <span id="mouthVal" class="mono small">0.05</span>
           </div>
-          <div class="small">
-            If this slider doesn't move the mouth, your parameter IDs differ. Click “Dump params”.
-          </div>
-        </div>
-
-        <hr />
-
-        <div class="field">
-          <label>Next step: connect ElevenLabs safely</label>
-          <div class="small">
-            Do <b>not</b> put API keys in this front-end. Create a small backend endpoint that calls ElevenLabs/OpenAI,
-            then return audio to this page. See <span class="mono">README.txt</span>.
-          </div>
         </div>
 
         <div class="log">
@@ -100,14 +63,8 @@
         </div>
       </section>
     </main>
-
-    <footer class="foot">
-      <span class="small">
-        Upload this folder to <span class="mono">/public_html/wisdom-app/</span>. Then embed it with an iframe in WordPress.
-      </span>
-    </footer>
   </div>
 
-  <script type="module" src="./app.js?v=10006"></script>
+  <script type="module" src="./app.js"></script>
 </body>
 </html>
