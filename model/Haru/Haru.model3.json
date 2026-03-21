@@ -12,7 +12,7 @@
 		"Expressions": [
 			{
 				"Name": "F01",
-				"File": "expressions/F01.exp3.json"
+				"File": "../../expressions/F01.exp3.json" 
 			},
 			{
 				"Name": "F02",
