@@ -127,14 +127,22 @@ async function loadModel() {
 
   try {
     model = await Live2DModel.from(preferred);
-
-    model.anchor.set(0.5, 0.5);
-    model.x = app.renderer.width * 0.5;
-    model.y = app.renderer.height * 0.72;
-    model.scale.set(0.35);
-
     app.stage.addChild(model);
-    log("Model loaded ✅");
+
+const bounds = model.getLocalBounds();
+const scaleX = (app.renderer.width * 0.7) / bounds.width;
+const scaleY = (app.renderer.height * 0.85) / bounds.height;
+const scale = Math.min(scaleX, scaleY);
+
+model.scale.set(scale);
+model.x = app.renderer.width / 2;
+model.y = app.renderer.height / 2 + (bounds.height * scale) * 0.1;
+model.anchor.set(0.5, 0.5);
+model.visible = true;
+model.alpha = 1;
+
+log("Model loaded ✅");
+    
   } catch (e) {
     log(`LOAD FAILED: ${e?.message || e}`);
   }
