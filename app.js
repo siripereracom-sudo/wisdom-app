@@ -128,21 +128,14 @@ async function loadModel() {
 
   try {
     model = await Live2DModel.from(preferred);
-    app.stage.addChild(model);
+app.stage.addChild(model);
 
-const bounds = model.getLocalBounds();
-const scale = Math.min(
-  (app.renderer.width * 0.8) / bounds.width,
-  (app.renderer.height * 0.8) / bounds.height
-);
-
-model.scale.set(scale);
-model.x = app.renderer.width / 2 - (bounds.x + bounds.width / 2) * scale;
-model.y = app.renderer.height / 2 - (bounds.y + bounds.height / 2) * scale;
+model.scale.set(0.08);
+model.x = 150;
+model.y = 250;
 model.visible = true;
 model.alpha = 1;
 
-log(`Bounds: x=${bounds.x}, y=${bounds.y}, w=${bounds.width}, h=${bounds.height}`);
 log("Model positioned ✅");
     
   } catch (e) {
