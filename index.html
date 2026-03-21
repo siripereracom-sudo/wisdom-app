@@ -1,23 +1,21 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Wisdom App (Starter)</title>
   <link rel="stylesheet" href="./style.css" />
-
-  <!-- REQUIRED Live2D scripts -->
-  
-</head>
-
 </head>
 <body>
   <div class="wrap">
     <header class="top">
       <div>
         <h1>Wisdom App — Starter</h1>
-        <p class="sub">Live2D + lip-sync demo for <span class="mono">pixi-live2d-display</span>. Add your model into <span class="mono">/wisdom-app/model/</span>.</p>
+        <p class="sub">
+          Live2D + lip-sync demo for
+          <span class="mono">pixi-live2d-display</span>.
+          Add your model into <span class="mono">/wisdom-app/model/</span>.
+        </p>
       </div>
       <div class="pill">v0.1</div>
     </header>
@@ -32,11 +30,11 @@
           </div>
         </div>
 
-        <!-- THIS is the correct stage -->
         <div id="stage" class="canvasWrap"></div>
 
         <div class="hint">
-          Model URL: <span id="modelUrl" class="mono">model/model3.json</span> (auto-fallback to <span class="mono">model/model.json</span>)
+          Model URL:
+          <span id="modelUrl" class="mono">model/Haru/Haru.model3.json</span>
         </div>
       </section>
 
@@ -49,7 +47,9 @@
             <option value="english">English</option>
             <option value="punjabi">Punjabi</option>
           </select>
-          <div class="small">This starter does not call ElevenLabs yet. It demonstrates avatar loading + lip sync from audio.</div>
+          <div class="small">
+            This starter does not call ElevenLabs yet. It demonstrates avatar loading + lip sync from audio.
+          </div>
         </div>
 
         <div class="field">
@@ -77,7 +77,9 @@
             <span class="small">OpenY:</span>
             <span id="mouthVal" class="mono small">0.05</span>
           </div>
-          <div class="small">If this slider doesn't move the mouth, your parameter IDs differ. Click “Dump params”.</div>
+          <div class="small">
+            If this slider doesn't move the mouth, your parameter IDs differ. Click “Dump params”.
+          </div>
         </div>
 
         <hr />
@@ -98,12 +100,12 @@
     </main>
 
     <footer class="foot">
-      <span class="small">Upload this folder to <span class="mono">/public_html/wisdom-app/</span>. Then embed it with an iframe in WordPress.</span>
+      <span class="small">
+        Upload this folder to <span class="mono">/public_html/wisdom-app/</span>. Then embed it with an iframe in WordPress.
+      </span>
     </footer>
   </div>
 
-  <div id="stage" class="canvasWrap"></div> 
-
-  <script type="module" src="./app.js?v=10005"></script>
+  <script type="module" src="./app.js?v=10006"></script>
 </body>
 </html>
