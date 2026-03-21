@@ -97,7 +97,7 @@ async function loadModel() {
   }
 
   try {
-    model = await Live2DModel.from(preferred, { autoInteract: false });
+   model = await Live2DModel.from(preferred);
 
     // Position & scale
     model.anchor.set(0.5, 0.5);
