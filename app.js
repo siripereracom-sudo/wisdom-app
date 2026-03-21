@@ -1,6 +1,6 @@
+window.PIXI = PIXI;
 import * as PIXI from "https://esm.sh/pixi.js@7.4.2";
-import { Live2DModel } from "https://esm.sh/pixi-live2d-display@0.4.0";
-
+import { Live2DModel } from "https://esm.sh/pixi-live2d-display/cubism4";
 const els = {
   stage: document.getElementById("stage"),
   log: document.getElementById("log"),
