@@ -1,6 +1,7 @@
-window.PIXI = PIXI;
 import * as PIXI from "https://esm.sh/pixi.js@7.4.2";
 import { Live2DModel } from "https://esm.sh/pixi-live2d-display/cubism4";
+
+window.PIXI = PIXI;
 const els = {
   stage: document.getElementById("stage"),
   log: document.getElementById("log"),
@@ -157,13 +158,25 @@ function dumpParams() {
 
   try {
     const core = model.internalModel.coreModel;
+
+    if (typeof core.getParameterCount !== "function") {
+      log("Dump failed: getParameterCount not available.");
+      return;
+    }
+
     const count = core.getParameterCount();
     log(`Parameter count: ${count}`);
-    for (let i = 0; i < count; i++) {
-      log(`- ${core.getParameterId(i)}`);
+
+    if (typeof core.getParameterIds === "function") {
+      const ids = core.getParameterIds();
+      ids.forEach((id) => log(`- ${id}`));
+    } else {
+      log("Parameter IDs API not available on this runtime.");
     }
   } catch (e) {
     log(`Dump failed: ${e?.message || e}`);
+  }
+}
   }
 }
 
