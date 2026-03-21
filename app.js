@@ -130,18 +130,19 @@ async function loadModel() {
     app.stage.addChild(model);
 
 const bounds = model.getLocalBounds();
-const scaleX = (app.renderer.width * 0.7) / bounds.width;
-const scaleY = (app.renderer.height * 0.85) / bounds.height;
-const scale = Math.min(scaleX, scaleY);
+const scale = Math.min(
+  (app.renderer.width * 0.8) / bounds.width,
+  (app.renderer.height * 0.8) / bounds.height
+);
 
 model.scale.set(scale);
-model.x = app.renderer.width / 2;
-model.y = app.renderer.height / 2 + (bounds.height * scale) * 0.1;
-model.anchor.set(0.5, 0.5);
+model.x = app.renderer.width / 2 - (bounds.x + bounds.width / 2) * scale;
+model.y = app.renderer.height / 2 - (bounds.y + bounds.height / 2) * scale;
 model.visible = true;
 model.alpha = 1;
 
-log("Model loaded ✅");
+log(`Bounds: x=${bounds.x}, y=${bounds.y}, w=${bounds.width}, h=${bounds.height}`);
+log("Model positioned ✅");
     
   } catch (e) {
     log(`LOAD FAILED: ${e?.message || e}`);
