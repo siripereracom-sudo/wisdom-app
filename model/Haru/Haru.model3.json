@@ -3,7 +3,7 @@
 	"FileReferences": {
 		"Moc": "Haru.moc3",
 		"Textures": [
-			"../../Haru.2048/texture_00.png"
+			"../../Haru.2048/texture_00.png",
             "../../Haru.2048/texture_01.png"
 		],
 		"Physics": "Haru.physics3.json",
@@ -16,31 +16,31 @@
 			},
 			{
 				"Name": "F02",
-				"File": "expressions/F02.exp3.json"
+				"File": "../../expressions/F02.exp3.json"
 			},
 			{
 				"Name": "F03",
-				"File": "expressions/F03.exp3.json"
+				"File": "../../expressions/F03.exp3.json"
 			},
 			{
 				"Name": "F04",
-				"File": "expressions/F04.exp3.json"
+				"File": "../../expressions/F04.exp3.json"
 			},
 			{
 				"Name": "F05",
-				"File": "expressions/F05.exp3.json"
+				"File": "../../expressions/F05.exp3.json"
 			},
 			{
 				"Name": "F06",
-				"File": "expressions/F06.exp3.json"
+				"File": "../../expressions/F06.exp3.json"
 			},
 			{
 				"Name": "F07",
-				"File": "expressions/F07.exp3.json"
+				"File": "../../expressions/F07.exp3.json"
 			},
 			{
 				"Name": "F08",
-				"File": "expressions/F08.exp3.json"
+				"File": "../../expressions/F08.exp3.json"
 			}
 		],
 		"Motions": {
