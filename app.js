@@ -2,6 +2,7 @@ import * as PIXI from "https://esm.sh/pixi.js@7.4.2";
 import { Live2DModel } from "https://esm.sh/pixi-live2d-display/cubism4";
 
 window.PIXI = PIXI;
+
 const els = {
   stage: document.getElementById("stage"),
   log: document.getElementById("log"),
@@ -27,16 +28,14 @@ let audioEl = null;
 
 function log(msg) {
   const line = `[${new Date().toLocaleTimeString()}] ${msg}`;
-  if (els.log) {
-    els.log.textContent = (els.log.textContent ? `${els.log.textContent}\n` : "") + line;
-    els.log.scrollTop = els.log.scrollHeight;
-  }
+  els.log.textContent += line + "\n";
+  els.log.scrollTop = els.log.scrollHeight;
   console.log(line);
 }
 
-async function headOk(url) {
+async function fileExists(url) {
   try {
-    const r = await fetch(url, { method: "HEAD", cache: "no-store" });
+    const r = await fetch(url, { method: "GET", cache: "no-store" });
     return r.ok;
   } catch {
     return false;
@@ -44,15 +43,8 @@ async function headOk(url) {
 }
 
 async function initPixi() {
-  if (!els.stage) {
-    log("ERROR: Missing #stage in index.html");
-    return;
-  }
-
   if (app) {
-    try {
-      app.destroy(true, { children: true });
-    } catch {}
+    try { app.destroy(true, { children: true }); } catch {}
     app = null;
   }
 
@@ -70,39 +62,26 @@ async function initPixi() {
 function setMouth(value) {
   if (!model) return;
 
-  try {
-    const core = model.internalModel.coreModel;
-    const mouthParamIds = ["ParamMouthOpenY", "PARAM_MOUTH_OPEN_Y"];
+  const core = model.internalModel.coreModel;
+  const ids = ["ParamMouthOpenY", "PARAM_MOUTH_OPEN_Y"];
 
-    for (const id of mouthParamIds) {
-      try {
-        core.setParameterValueById(id, value);
-      } catch {}
-    }
+  ids.forEach(id => {
+    try { core.setParameterValueById(id, value); } catch {}
+  });
 
-    if (els.mouthVal) {
-      els.mouthVal.textContent = value.toFixed(2);
-    }
-  } catch (e) {
-    log(`Mouth set failed: ${e?.message || e}`);
-  }
+  els.mouthVal.textContent = value.toFixed(2);
 }
 
 async function loadModel() {
-  if (!app) await initPixi();
-  if (!app) return;
+  await initPixi();
 
   if (model) {
-    try {
-      app.stage.removeChild(model);
-    } catch {}
-    try {
-      model.destroy?.();
-    } catch {}
+    try { app.stage.removeChild(model); } catch {}
+    try { model.destroy?.(); } catch {}
     model = null;
   }
 
-  if (els.modelUrl) els.modelUrl.textContent = preferred;
+  els.modelUrl.textContent = preferred;
 
   const base = new URL(preferred, window.location.href).toString();
   const mocUrl = new URL("Haru.moc3", base).toString();
@@ -110,118 +89,69 @@ async function loadModel() {
   log(`Model JSON: ${base}`);
   log(`Expect Moc3: ${mocUrl}`);
 
-  const jsonOk = await headOk(base);
-  const mocOk = await headOk(mocUrl);
+  const jsonOk = await fileExists(base);
+  const mocOk = await fileExists(mocUrl);
 
-  log(`HEAD model3.json: ${jsonOk ? "OK" : "FAIL"}`);
-  log(`HEAD Haru.moc3: ${mocOk ? "OK" : "FAIL"}`);
+  log(`model3.json: ${jsonOk ? "OK" : "FAIL"}`);
+  log(`Haru.moc3: ${mocOk ? "OK" : "FAIL"}`);
 
-  if (!jsonOk) {
-    log("STOP: model3.json not reachable. Check path/case.");
-    return;
-  }
-
-  if (!mocOk) {
-    log("STOP: Haru.moc3 not found.");
+  if (!jsonOk || !mocOk) {
+    log("STOP: Model files missing or path incorrect.");
     return;
   }
 
   try {
     model = await Live2DModel.from(preferred);
-app.stage.addChild(model);
+    app.stage.addChild(model);
 
-model.scale.set(0.08);
-model.x = 150;
-model.y = 250;
-model.visible = true;
-model.alpha = 1;
+    model.scale.set(0.08);
+    model.x = 150;
+    model.y = 250;
 
-log("Model positioned ✅");
-    
+    log("Model loaded and positioned.");
   } catch (e) {
-    log(`LOAD FAILED: ${e?.message || e}`);
+    log(`LOAD FAILED: ${e.message}`);
   }
 }
 
 function dumpParams() {
-  if (!model) {
-    log("No model loaded.");
-    return;
-  }
+  if (!model) return log("No model loaded.");
 
-  try {
-    const core = model.internalModel.coreModel;
+  const core = model.internalModel.coreModel;
+  const count = core.getParameterCount();
+  log(`Parameter count: ${count}`);
 
-    if (typeof core.getParameterCount !== "function") {
-      log("Dump failed: getParameterCount not available.");
-      return;
-    }
-
-    const count = core.getParameterCount();
-    log(`Parameter count: ${count}`);
-
-    if (typeof core.getParameterIds === "function") {
-      const ids = core.getParameterIds();
-      ids.forEach((id) => log(`- ${id}`));
-    } else {
-      log("Parameter IDs API not available on this runtime.");
-    }
-  } catch (e) {
-    log(`Dump failed: ${e?.message || e}`);
-  }
-}
-  }
+  const ids = core.getParameterIds();
+  ids.forEach(id => log(`- ${id}`));
 }
 
 function stopLipSync() {
-  if (rafId) {
-    cancelAnimationFrame(rafId);
-    rafId = null;
-  }
+  if (rafId) cancelAnimationFrame(rafId);
+  rafId = null;
 
-  if (audioEl) {
-    try {
-      audioEl.pause();
-    } catch {}
-    audioEl = null;
-  }
+  if (audioEl) audioEl.pause();
+  audioEl = null;
 
-  if (sourceNode) {
-    try {
-      sourceNode.disconnect();
-    } catch {}
-    sourceNode = null;
-  }
+  if (sourceNode) sourceNode.disconnect();
+  sourceNode = null;
 
-  if (analyser) {
-    try {
-      analyser.disconnect();
-    } catch {}
-    analyser = null;
-  }
+  if (analyser) analyser.disconnect();
+  analyser = null;
 
   setMouth(0);
 }
 
 async function playLipSync() {
-  if (!els.audioFile?.files?.length) {
-    log("Choose an audio file first.");
-    return;
-  }
-
-  if (!model) {
-    log("Load the model first.");
-    return;
-  }
+  if (!els.audioFile.files.length) return log("Choose an audio file first.");
+  if (!model) return log("Load the model first.");
 
   stopLipSync();
 
   const file = els.audioFile.files[0];
   const url = URL.createObjectURL(file);
 
-  audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+  audioCtx = audioCtx || new AudioContext();
   audioEl = new Audio(url);
-  audioEl.crossOrigin = "anonymous";
 
   sourceNode = audioCtx.createMediaElementSource(audioEl);
   analyser = audioCtx.createAnalyser();
@@ -233,19 +163,14 @@ async function playLipSync() {
   const data = new Uint8Array(analyser.frequencyBinCount);
 
   const tick = () => {
-    if (!analyser) return;
     analyser.getByteFrequencyData(data);
-
-    let sum = 0;
-    for (let i = 0; i < data.length; i++) sum += data[i];
-    const avg = sum / data.length;
+    const avg = data.reduce((a, b) => a + b, 0) / data.length;
     const mouth = Math.min(1, avg / 90);
-
     setMouth(mouth);
     rafId = requestAnimationFrame(tick);
   };
 
-  audioEl.onended = () => stopLipSync();
+  audioEl.onended = stopLipSync;
 
   await audioCtx.resume();
   await audioEl.play();
@@ -254,25 +179,14 @@ async function playLipSync() {
   log(`Playing "${file.name}"`);
 }
 
-els.btnReload?.addEventListener("click", () => {
-  loadModel().catch((e) => console.error(e));
-});
+els.btnReload.addEventListener("click", loadModel);
+els.btnDump.addEventListener("click", dumpParams);
+els.btnPlay.addEventListener("click", playLipSync);
+els.btnStop.addEventListener("click", stopLipSync);
 
-els.btnDump?.addEventListener("click", () => {
-  dumpParams();
-});
-
-els.btnPlay?.addEventListener("click", () => {
-  playLipSync().catch((e) => log(`Play failed: ${e?.message || e}`));
-});
-
-els.btnStop?.addEventListener("click", () => {
-  stopLipSync();
-});
-
-els.mouthSlider?.addEventListener("input", (e) => {
+els.mouthSlider.addEventListener("input", e => {
   const v = Number(e.target.value) / 100;
   setMouth(v);
 });
 
-loadModel().catch((e) => console.error(e));
+loadModel();
