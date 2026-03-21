@@ -37,6 +37,7 @@ let app = null;
 let model = null;
 
 async function initPixi() {
+  console.log("initPixi start");
   if (!els.stage) {
     log("ERROR: Missing #stage in index.html");
     return;
@@ -48,6 +49,7 @@ async function initPixi() {
   }
 
   app = new PIXI.Application({
+    console.log("PIXI app created", app);
     resizeTo: els.stage,
     backgroundAlpha: 0,
     antialias: true,
@@ -57,11 +59,12 @@ async function initPixi() {
   els.stage.appendChild(app.view);
   log("PIXI initialized.");
   
-}console.log("loadModel start");
-console.log("stage exists?", !!els.stage);
-console.log("preferred path =", preferred);
+}
 
 async function loadModel() {
+  console.log("loadModel start");
+console.log("stage exists?", !!els.stage);
+console.log("preferred path =", preferred);
   if (!app) await initPixi();
   if (!app) return;
   
@@ -85,6 +88,8 @@ async function loadModel() {
 
   log(`Model JSON: ${base}`);
   log(`Expect Moc3: ${mocUrl}`);
+
+  console.log("about to HEAD model", base);
 
   const jsonOk = await headOk(base);
   const mocOk = await headOk(mocUrl);
