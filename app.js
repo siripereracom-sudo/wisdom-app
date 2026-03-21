@@ -56,11 +56,16 @@ async function initPixi() {
   els.stage.innerHTML = "";
   els.stage.appendChild(app.view);
   log("PIXI initialized.");
-}
+  
+}console.log("loadModel start");
+console.log("stage exists?", !!els.stage);
+console.log("preferred path =", preferred);
 
 async function loadModel() {
   if (!app) await initPixi();
   if (!app) return;
+  
+  console.log("initPixi start");
 
   if (model) {
     try { app.stage.removeChild(model); } catch {}
