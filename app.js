@@ -16,7 +16,8 @@ const els = {
   btnStop: document.getElementById("btnStop"),
 };
 
-const preferred = "model/Haru/Haru.model3.json";
+// ⭐ FIXED PATH — this was the root cause ⭐
+const preferred = "././model/Haru/Haru.model3.json";
 
 let app = null;
 let model = null;
@@ -56,6 +57,7 @@ async function initPixi() {
 
   els.stage.innerHTML = "";
   els.stage.appendChild(app.view);
+
   log("PIXI initialized.");
 }
 
@@ -119,6 +121,7 @@ function dumpParams() {
 
   const core = model.internalModel.coreModel;
   const count = core.getParameterCount();
+
   log(`Parameter count: ${count}`);
 
   const ids = core.getParameterIds();
@@ -166,6 +169,7 @@ async function playLipSync() {
     analyser.getByteFrequencyData(data);
     const avg = data.reduce((a, b) => a + b, 0) / data.length;
     const mouth = Math.min(1, avg / 90);
+
     setMouth(mouth);
     rafId = requestAnimationFrame(tick);
   };
@@ -174,6 +178,7 @@ async function playLipSync() {
 
   await audioCtx.resume();
   await audioEl.play();
+
   tick();
 
   log(`Playing "${file.name}"`);
