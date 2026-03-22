@@ -105,6 +105,14 @@ async function loadModel() {
   try {
     model = await Live2DModel.from(preferred);
     app.stage.addChild(model);
+    model.scale.set(0.06);
+model.x = 200;
+model.y = 500;
+model.visible = true;
+model.alpha = 1;
+
+log(`Final pos: x=${model.x}, y=${model.y}, scale=${model.scale.x}`);
+log("Model loaded and positioned.");
 
     model.scale.set(0.08);
     model.x = 150;
