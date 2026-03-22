@@ -17,7 +17,7 @@ const els = {
 };
 
 // ⭐ FIXED PATH — this was the root cause ⭐
-const preferred = "././model/Haru/Haru.model3.json";
+const preferred = "model/Haru/Haru.model3.json";
 
 let app = null;
 let model = null;
