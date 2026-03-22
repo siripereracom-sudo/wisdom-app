@@ -1,11 +1,16 @@
 {
-	"Version": 3,
-	"FileReferences": {
-		"Moc": "Haru.moc3",
-		"Textures": [
-			"../../Haru.2048/texture_00.png",
-            "../../Haru.2048/texture_01.png"
-		],
+		"FileReferences": {
+    "Moc": "Haru.moc3",
+    "Textures": [
+        "../../Haru.2048/texture_00.png",
+        "../../Haru.2048/texture_01.png"
+    ],
+    "Motions": {
+        "Idle": [
+            { "File": "../../motions/haru_idle.motion3.json" }
+        ]
+    }
+}
 		"Physics": "Haru.physics3.json",
 		"Pose": "Haru.pose3.json",
 		"DisplayInfo": "Haru.cdi3.json",
