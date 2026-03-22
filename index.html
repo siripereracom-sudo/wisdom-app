@@ -67,6 +67,25 @@ STOP: Model files missing or path incorrect.
       </section>
     </main>
   </div>
+    <!-- ADD THIS BLOCK -->
+  <script>
+    PIXI.live2d.Live2DModel.from("Haru/Haru.model3.json").then(model => {
+      // Create PIXI app if not already created in app.js
+      if (!window.app) {
+        window.app = new PIXI.Application({
+          view: document.getElementById("stage"),
+          autoStart: true,
+          resizeTo: document.getElementById("stage")
+        });
+      }
+
+      app.stage.addChild(model);
+    });
+  </script>
+
+  <!-- Your existing script -->
+  <script type="module" src="./app.js"></script>
+
 
   <script type="module" src="./app.js"></script>
 </body>
