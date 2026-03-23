@@ -85,7 +85,7 @@ async function loadModel() {
 
   els.modelUrl.textContent = preferred;
 
-  const base = new URL(preferred, window.location.href).toString();
+  const base = preferred;
 
   // ⭐ FIXED: Correct MOC3 URL
   const mocUrl = preferred.replace("Haru.model3.json", "Haru.moc3");
