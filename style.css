@@ -119,4 +119,17 @@ pre{
     width: 100% !important;
     height: 100% !important;
     display: block;
+}#stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#guruImage {
+  position: absolute;
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+  z-index: 1;
 }
