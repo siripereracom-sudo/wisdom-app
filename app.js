@@ -124,6 +124,9 @@ async function loadModel() {
   try {
     model = await Live2DModel.from(preferred);
     app.stage.addChild(model);
+      model.anchor.set(0.5, 0.5);
+   model.scale.set(0.08);
+    
     // ⭐ Reposition AFTER resize + layout
 requestAnimationFrame(() => {
   requestAnimationFrame(() => {
@@ -132,10 +135,7 @@ requestAnimationFrame(() => {
 });
 
     // ⭐ SAME SCALE (your choice)
-    model.scale.set(0.08);
-
-    model.anchor.set(0.5, 0.5);
-   
+    
 
     log("Model loaded and positioned.");
   } catch (e) {
