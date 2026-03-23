@@ -90,4 +90,21 @@ pre{
     width: 100%;
     height: 100%;
     display: block;
+}.stage {
+    min-height: 720px;
+    height: 720px;
+    display: flex;
+    flex-direction: column;
+}
+
+.canvasWrap {
+    flex: 1;
+    min-height: 620px;
+    position: relative;
+}
+
+.canvasWrap > canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
 }
