@@ -124,6 +124,12 @@ async function loadModel() {
   try {
     model = await Live2DModel.from(preferred);
     app.stage.addChild(model);
+    // ⭐ Reposition AFTER resize + layout
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    model.position.set(app.renderer.width / 2, app.renderer.height / 2);
+  });
+});
 
     // ⭐ SAME SCALE (your choice)
     model.scale.set(0.08);
@@ -213,9 +219,4 @@ els.mouthSlider.addEventListener("input", e => {
 
 // ⭐ Load model on startup
 loadModel();
-// ⭐ Reposition AFTER resize + layout
-requestAnimationFrame(() => {
-  requestAnimationFrame(() => {
-    model.position.set(app.renderer.width / 2, app.renderer.height / 2);
-  });
-});
+
