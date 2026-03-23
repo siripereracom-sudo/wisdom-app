@@ -129,9 +129,11 @@ async function loadModel() {
     model.scale.set(0.08);
 
     model.anchor.set(0.5, 0.5);
-    // ⭐ Reposition AFTER resize
+   // ⭐ Reposition AFTER resize + layout
 requestAnimationFrame(() => {
-  model.position.set(app.renderer.width / 2, app.renderer.height / 2);
+  requestAnimationFrame(() => {
+    model.position.set(app.renderer.width / 2, app.renderer.height / 2);
+  });
 });
 
     log("Model loaded and positioned.");
