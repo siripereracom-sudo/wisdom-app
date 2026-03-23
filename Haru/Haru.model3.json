@@ -10,7 +10,7 @@
             { "File": "motions/haru_idle.motion3.json" }
         ]
     }
-}
+},
 		"Physics": "Haru.physics3.json",
 		"Pose": "Haru.pose3.json",
 		"DisplayInfo": "Haru.cdi3.json",
