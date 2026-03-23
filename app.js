@@ -54,6 +54,23 @@ async function initPixi() {
     backgroundAlpha: 0,
     antialias: true,
   });
+  // ⭐ Force PIXI to size the canvas AFTER layout is ready
+const stageEl = els.stage;
+
+function resizePixi() {
+    const w = stageEl.clientWidth;
+    const h = stageEl.clientHeight;
+
+    if (w > 0 && h > 0) {
+        app.renderer.resize(w, h);
+    }
+}
+
+// Run once on load
+resizePixi();
+
+// Run again on window resize
+window.addEventListener("resize", resizePixi);
 
   els.stage.innerHTML = "";
   els.stage.appendChild(app.view);
