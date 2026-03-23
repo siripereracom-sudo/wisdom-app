@@ -129,12 +129,7 @@ async function loadModel() {
     model.scale.set(0.08);
 
     model.anchor.set(0.5, 0.5);
-   // ⭐ Reposition AFTER resize + layout
-requestAnimationFrame(() => {
-  requestAnimationFrame(() => {
-    model.position.set(app.renderer.width / 2, app.renderer.height / 2);
-  });
-});
+   
 
     log("Model loaded and positioned.");
   } catch (e) {
@@ -218,3 +213,9 @@ els.mouthSlider.addEventListener("input", e => {
 
 // ⭐ Load model on startup
 loadModel();
+// ⭐ Reposition AFTER resize + layout
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    model.position.set(app.renderer.width / 2, app.renderer.height / 2);
+  });
+});
