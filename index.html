@@ -1,40 +1,37 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wisdom App — Live2D</title>
-
+  <title>Guru Nanak App</title>
   <link rel="stylesheet" href="./style.css" />
-
-  <!-- Live2D Cubism Core -->
-  <script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script>
 </head>
 <body>
   <div class="wrap">
     <header class="top">
-      <h1>Wisdom App — Live2D</h1>
-      <p class="sub">PIXI + Live2D + Lip Sync</p>
+      <div>
+        <h1>Guru Nanak App</h1>
+        <p class="sub">Sacred portrait prototype with future lip sync and subtle animation.</p>
+      </div>
+      <div class="pill">Portrait Mode</div>
     </header>
 
     <main class="grid">
       <section class="card stage">
         <div class="stage-head">
-          <div class="label">Avatar Stage</div>
+          <div class="label">Portrait Stage</div>
           <div class="row">
-            <button id="btnReload" class="btn">Reload model</button>
-            <button id="btnDump" class="btn btnGhost">Dump params</button>
+            <button id="btnReload" class="btn">Reload image</button>
           </div>
         </div>
 
         <div id="stage" class="canvasWrap">
-  <img src="guru.png" id="guruImage" />
-</div>
+          <img src="guru.png" id="guruImage" alt="Guru Nanak portrait" />
+        </div>
 
         <div class="hint">
-          Model URL:
-          <span id="modelUrl" class="mono">model/Haru/Haru.model3.json</span>
+          Image URL:
+          <span id="imageUrl" class="mono">guru.png</span>
         </div>
       </section>
 
@@ -45,17 +42,20 @@
           <label>Audio lip-sync test</label>
           <div class="row">
             <input id="audioFile" type="file" accept="audio/*" />
-            <button id="btnPlay" class="btn">Play & lip-sync</button>
+            <button id="btnPlay" class="btn">Play</button>
             <button id="btnStop" class="btn btnGhost">Stop</button>
+          </div>
+          <div class="small">
+            This is the portrait prototype. Animation will be added later.
           </div>
         </div>
 
         <div class="field">
-          <label>Mouth sanity test</label>
-          <input id="mouthSlider" type="range" min="0" max="75" value="5" />
+          <label>Image size test</label>
+          <input id="sizeSlider" type="range" min="30" max="100" value="78" />
           <div class="row">
-            <span class="small">OpenY:</span>
-            <span id="mouthVal" class="mono small">0.05</span>
+            <span class="small">Scale:</span>
+            <span id="sizeVal" class="mono small">78%</span>
           </div>
         </div>
 
@@ -66,25 +66,7 @@
       </section>
     </main>
   </div>
-    <!-- ADD THIS BLOCK -->
-  <script>
-    PIXI.live2d.Live2DModel.from("Haru/Haru.model3.json").then(model => {
-      // Create PIXI app if not already created in app.js
-      if (!window.app) {
-        window.app = new PIXI.Application({
-          view: document.getElementById("stage"),
-          autoStart: true,
-          resizeTo: document.getElementById("stage")
-        });
-      }
 
-      app.stage.addChild(model);
-    });
-  </script>
-
-  <!-- Your existing script -->
-  <script type="module" src="./app.js"></script>
-
+  <script type="module" src="./app.js?v=20001"></script>
 </body>
-
 </html>
