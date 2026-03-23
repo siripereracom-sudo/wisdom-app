@@ -123,7 +123,7 @@ async function loadModel() {
 
   try {
     model = await Live2DModel.from(preferred);
-    app.stage.addChild(model);
+  // app.stage.addChild(model);
       model.anchor.set(0.5, 0.5);
    model.scale.set(0.08);
     
