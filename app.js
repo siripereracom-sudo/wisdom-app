@@ -54,6 +54,21 @@ async function initPixi() {
     backgroundAlpha: 0,
     antialias: true,
   });
+  // ⭐ Fix: force PIXI to size the canvas AFTER layout is ready
+function resizePixi() {
+    const w = els.stage.clientWidth;
+    const h = els.stage.clientHeight;
+
+    if (w > 0 && h > 0) {
+        app.renderer.resize(w, h);
+    }
+}
+
+// Run once after layout
+requestAnimationFrame(resizePixi);
+
+// Run again on window resize
+window.addEventListener("resize", resizePixi);
   // ⭐ Force PIXI to size the canvas AFTER layout is ready
 const stageEl = els.stage;
 
