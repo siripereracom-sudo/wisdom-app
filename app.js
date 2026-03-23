@@ -44,65 +44,52 @@ async function fileExists(url) {
 }
 
 async function initPixi() {
+  // Destroy previous PIXI instance if exists
   if (app) {
     try { app.destroy(true, { children: true }); } catch {}
     app = null;
   }
 
+  // Create PIXI app WITHOUT resizeTo
   app = new PIXI.Application({
-    resizeTo: els.stage,
     backgroundAlpha: 0,
     antialias: true,
   });
-  // ⭐ Fix: force PIXI to size the canvas AFTER layout is ready
-function resizePixi() {
+
+  // Clear stage and attach canvas BEFORE resizing
+  els.stage.innerHTML = "";
+  els.stage.appendChild(app.view);
+
+  // ⭐ SINGLE resize function (clean)
+  function resizePixi() {
     const w = els.stage.clientWidth;
     const h = els.stage.clientHeight;
 
     if (w > 0 && h > 0) {
-        app.renderer.resize(w, h);
+      app.renderer.resize(w, h);
     }
-}
+  }
 
-// Run once after layout
-requestAnimationFrame(resizePixi);
+  // ⭐ Wait TWO frames so layout is fully ready
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      resizePixi();
+    });
+  });
 
-// Run again on window resize
-window.addEventListener("resize", resizePixi);
-  // ⭐ Force PIXI to size the canvas AFTER layout is ready
-const stageEl = els.stage;
-
-function resizePixi() {
-    const w = stageEl.clientWidth;
-    const h = stageEl.clientHeight;
-
-    if (w > 0 && h > 0) {
-        app.renderer.resize(w, h);
-    }
-}
-
-// Run once on load
-resizePixi();
-
-// Run again on window resize
-window.addEventListener("resize", resizePixi);
-
-  els.stage.innerHTML = "";
-  els.stage.appendChild(app.view);
+  // Resize on window resize
+  window.addEventListener("resize", resizePixi);
 
   log("PIXI initialized.");
 }
 
 function setMouth(value) {
   if (!model) return;
-
   const core = model.internalModel.coreModel;
   const ids = ["ParamMouthOpenY", "PARAM_MOUTH_OPEN_Y"];
-
   ids.forEach(id => {
     try { core.setParameterValueById(id, value); } catch {}
   });
-
   els.mouthVal.textContent = value.toFixed(2);
 }
 
@@ -118,8 +105,6 @@ async function loadModel() {
   els.modelUrl.textContent = preferred;
 
   const base = preferred;
-
-  // ⭐ FIXED: Correct MOC3 URL
   const mocUrl = preferred.replace("Haru.model3.json", "Haru.moc3");
 
   log(`Model JSON: ${base}`);
@@ -140,10 +125,11 @@ async function loadModel() {
     model = await Live2DModel.from(preferred);
     app.stage.addChild(model);
 
+    // ⭐ SAME SCALE (your choice)
     model.scale.set(0.08);
-model.anchor.set(0.5, 0.5);
-model.position.set(app.renderer.width / 2, app.renderer.height / 2);
 
+    model.anchor.set(0.5, 0.5);
+    model.position.set(app.renderer.width / 2, app.renderer.height / 2);
 
     log("Model loaded and positioned.");
   } catch (e) {
@@ -153,12 +139,9 @@ model.position.set(app.renderer.width / 2, app.renderer.height / 2);
 
 function dumpParams() {
   if (!model) return log("No model loaded.");
-
   const core = model.internalModel.coreModel;
   const count = core.getParameterCount();
-
   log(`Parameter count: ${count}`);
-
   const ids = core.getParameterIds();
   ids.forEach(id => log(`- ${id}`));
 }
@@ -204,7 +187,6 @@ async function playLipSync() {
     analyser.getByteFrequencyData(data);
     const avg = data.reduce((a, b) => a + b, 0) / data.length;
     const mouth = Math.min(1, avg / 90);
-
     setMouth(mouth);
     rafId = requestAnimationFrame(tick);
   };
@@ -229,4 +211,5 @@ els.mouthSlider.addEventListener("input", e => {
   setMouth(v);
 });
 
+// ⭐ Load model on startup
 loadModel();
