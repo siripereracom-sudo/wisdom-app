@@ -16,7 +16,7 @@ const els = {
   btnStop: document.getElementById("btnStop"),
 };
 
-// ⭐ FIXED PATH — this was the root cause ⭐
+// ⭐ Correct model path
 const preferred = "/Haru/Haru.model3.json";
 
 let app = null;
@@ -86,7 +86,9 @@ async function loadModel() {
   els.modelUrl.textContent = preferred;
 
   const base = new URL(preferred, window.location.href).toString();
-  const mocUrl = new URL("Haru.moc3", base).toString();
+
+  // ⭐ FIXED: Correct MOC3 URL
+  const mocUrl = preferred.replace("Haru.model3.json", "Haru.moc3");
 
   log(`Model JSON: ${base}`);
   log(`Expect Moc3: ${mocUrl}`);
